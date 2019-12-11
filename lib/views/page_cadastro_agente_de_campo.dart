@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class PageCadastroAgenteDeCampo extends StatefulWidget {
   PageCadastroAgenteDeCampo({Key key, this.title}) : super(key: key);
@@ -15,6 +16,7 @@ class _PageCadastroAgenteDeCampoState extends State<PageCadastroAgenteDeCampo> {
 
   @override
   Widget build(BuildContext context) {
+    
     final nomeAgenteDeCampoField = TextField(
       style: style,
       decoration: InputDecoration(
@@ -119,4 +121,21 @@ class _PageCadastroAgenteDeCampoState extends State<PageCadastroAgenteDeCampo> {
       ),
     ));
   }
+}
+class Record {
+  final String nome;
+  final int votos;
+  final DocumentReference reference;
+
+  Record.fromMap(Map<String, dynamic> map, {this.reference})
+      : assert(map['nome'] != null),
+        assert(map['votos'] != null),
+        nome = map['nome'],
+        votos = map['votos'];
+
+  Record.fromSnapshot(DocumentSnapshot snapshot)
+      : this.fromMap(snapshot.data, reference: snapshot.reference);
+
+  @override
+  String toString() => "Record<$nome:$votos>";
 }

@@ -4,6 +4,7 @@ import 'package:new_project/views/page_cadastro_Motorista.dart';
 import 'package:new_project/views/page_cadastro_aluno.dart';
 import 'package:new_project/views/page_cadastro_escola.dart';
 import 'package:new_project/views/page_cadastro_fiscal_de_campo.dart';
+import 'package:new_project/views/page_cadastro_rota.dart';
 import 'package:new_project/views/page_cadastro_veiculo.dart';
 
 void main() {
@@ -14,30 +15,6 @@ void main() {
     home: MyHomePage(),
   ));
 }
-/*
-class TelaLogin extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Tela Login'),
-      ),
-      body: Center(
-        child: RaisedButton(
-          child: Text('Confirma'),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => List()),
-            );
-          },
-        ),
-      ),
-    );
-  }
-}
-
-*/
 
 class List extends StatelessWidget {
   @override
@@ -69,7 +46,7 @@ class List extends StatelessWidget {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => CadastrarRota()),
+            MaterialPageRoute(builder: (context) => PageCadastroRota()),
           );
         },
         child: new Text("Adicionar Rota"),
@@ -217,228 +194,6 @@ class List extends StatelessWidget {
         body: body);
   }
 }
-/*
-class TelaInicial extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Tela Incial"),
-      ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          RaisedButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => CadastrarAgenteDeCampo()),
-              );
-            },
-            child: Text('Cadastrar Agente de Campo'),
-          ),
-          RaisedButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => CadastrarRota()),
-              );
-            },
-            child: Text('Adicionar Rota'),
-          ),
-          RaisedButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => CadastrarAluno()),
-              );
-            },
-            child: Text('Cadastrar Aluno'),
-          ),
-          RaisedButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => CadastrarMotorista()),
-              );
-            },
-            child: Text('Cadastrar Motorista'),
-          ),
-          RaisedButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => CadastrarVeiculo()),
-              );
-            },
-            child: Text('Adicionar Veículo'),
-          ),
-          RaisedButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => CadastrarEscola()),
-              );
-            },
-            child: Text('Adicionar Escola'),
-          ),
-          RaisedButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => CadastrarFiscalDeCampo()),
-              );
-            },
-            child: Text('Cadastrar Fiscal de Campo '),
-          ),
-          RaisedButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            child: Text('Sair'),
-          )
-        ],
-      ),
-    );
-  }
-}
-*/
-
-class CadastrarAgenteDeCampo extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Cadastro de Agente de Campo"),
-      ),
-      body: Center(
-        child: RaisedButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          child: Text('Cancelar'),
-        ),
-      ),
-    );
-  }
-}
-
-class CadastrarRota extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Adicionar de Rota"),
-      ),
-      body: Center(
-        child: RaisedButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          child: Text('Cancelar'),
-        ),
-      ),
-    );
-  }
-}
-
-class CadastrarAluno extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Cadastro de Aluno"),
-      ),
-      body: Center(
-        child: RaisedButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          child: Text('Cancelar'),
-        ),
-      ),
-    );
-  }
-}
-
-class CadastrarMotorista extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Cadastro de Motorista"),
-      ),
-      body: Center(
-        child: RaisedButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          child: Text('Cancelar'),
-        ),
-      ),
-    );
-  }
-}
-
-class CadastrarVeiculo extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Adicionar Veículo"),
-      ),
-      body: Center(
-        child: RaisedButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          child: Text('Cancelar'),
-        ),
-      ),
-    );
-  }
-}
-
-class CadastrarEscola extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Adicionar Escola"),
-      ),
-      body: Center(
-        child: RaisedButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          child: Text('Cancelar'),
-        ),
-      ),
-    );
-  }
-}
-
-class CadastrarFiscalDeCampo extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Cadastrar de Fiscal de Campo"),
-      ),
-      body: Center(
-        child: RaisedButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          child: Text('Cancelar!'),
-        ),
-      ),
-    );
-  }
-}
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
@@ -505,9 +260,9 @@ class _MyHomePageState extends State<MyHomePage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 SizedBox(
-                  height: 255.0,
+                  height: 150.0,
                   child: Image.asset(
-                    "assets/gush_icon.png",
+                    "assets/busC.png",
                     fit: BoxFit.contain,
                   ),
                 ),
