@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class PageCadastroAluno extends StatefulWidget {
@@ -8,9 +9,42 @@ class PageCadastroAluno extends StatefulWidget {
   @override
   _PageCadastroAlunoState createState() => _PageCadastroAlunoState();
 }
+Firestore db = Firestore.instance;
+
+
+void salvar(List dados) async {
+  
+  
+  db.collection("aluno").add(
+    {
+      "nome": dados[0],
+      "residencia": dados[1],
+      "escola": dados[2],
+      "serie": dados[3],
+      "pontoAluno": dados[4]
+    }
+  );              
+}
 
 class _PageCadastroAlunoState extends State<PageCadastroAluno> {
   TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
+
+  TextEditingController _nomeAlunoFieldController = TextEditingController();
+  TextEditingController _residenciaFieldController = TextEditingController();
+  TextEditingController _escolaFieldController = TextEditingController();
+  TextEditingController _serieFieldController = TextEditingController();
+  TextEditingController _pontoAlunoFieldController = TextEditingController();
+
+  List getDados(){
+  List<String> parametros = new List(5);
+  parametros[0] = _nomeAlunoFieldController.text;
+  parametros[1] =_residenciaFieldController.text;
+  parametros[2] =_escolaFieldController.text;
+  parametros[3] = _serieFieldController.text;
+  parametros[4] = _pontoAlunoFieldController.text;
+  return parametros;
+  }
+  
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +55,8 @@ class _PageCadastroAlunoState extends State<PageCadastroAluno> {
           hintText: "Nome do Aluno",
           border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))),
-    );
+              controller: _nomeAlunoFieldController,
+      );
 
     final residenciaField = TextField(
       style: style,
@@ -66,7 +101,9 @@ class _PageCadastroAlunoState extends State<PageCadastroAluno> {
       child: MaterialButton(
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-        onPressed: () {},
+        onPressed: () {
+          salvar(getDados());
+        },
         child: Text("Confirmar",
             textAlign: TextAlign.center,
             style: style.copyWith(
