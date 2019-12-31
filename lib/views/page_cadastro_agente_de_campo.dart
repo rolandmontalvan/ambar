@@ -3,7 +3,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class PageCadastroAgenteDeCampo extends StatefulWidget {
   PageCadastroAgenteDeCampo({Key key, this.title}) : super(key: key);
-
   final String title;
 
   @override
@@ -11,12 +10,25 @@ class PageCadastroAgenteDeCampo extends StatefulWidget {
       _PageCadastroAgenteDeCampoState();
 }
 
+Firestore db = Firestore.instance;
+
+Future<DocumentSnapshot> salvar(
+    String nome, String email, String cpf, String senha) async {
+  await db
+      .collection("agenteDeCampo")
+      .add({"nome": nome, "email": email, "cpf": cpf, "senha": senha});
+}
+
 class _PageCadastroAgenteDeCampoState extends State<PageCadastroAgenteDeCampo> {
   TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
+  TextEditingController _nomeAgenteDeCampoFieldController =
+      TextEditingController();
+  TextEditingController _emailFieldController = TextEditingController();
+  TextEditingController _cpfFieldController = TextEditingController();
+  TextEditingController _passwordFieldController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    
     final nomeAgenteDeCampoField = TextField(
       style: style,
       decoration: InputDecoration(
@@ -24,6 +36,7 @@ class _PageCadastroAgenteDeCampoState extends State<PageCadastroAgenteDeCampo> {
           hintText: "Nome do Agente de Campo",
           border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))),
+      controller: _nomeAgenteDeCampoFieldController,
     );
 
     final emailField = TextField(
@@ -33,6 +46,7 @@ class _PageCadastroAgenteDeCampoState extends State<PageCadastroAgenteDeCampo> {
           hintText: "Email",
           border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))),
+      controller: _emailFieldController,
     );
 
     final cpfField = TextField(
@@ -42,6 +56,7 @@ class _PageCadastroAgenteDeCampoState extends State<PageCadastroAgenteDeCampo> {
           hintText: "CPF",
           border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))),
+      controller: _cpfFieldController,
     );
 
     final passwordField = TextField(
@@ -52,6 +67,7 @@ class _PageCadastroAgenteDeCampoState extends State<PageCadastroAgenteDeCampo> {
           hintText: "Senha",
           border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))),
+      controller: _passwordFieldController,
     );
 
     final confirmButon = Material(
@@ -61,7 +77,14 @@ class _PageCadastroAgenteDeCampoState extends State<PageCadastroAgenteDeCampo> {
       child: MaterialButton(
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-        onPressed: () {},
+        onPressed: () async {
+          await salvar(
+            _nomeAgenteDeCampoFieldController.text,
+            _emailFieldController.text,
+            _cpfFieldController.text,
+            _passwordFieldController.text,
+          );
+        },
         child: Text("Confirmar",
             textAlign: TextAlign.center,
             style: style.copyWith(
@@ -121,21 +144,4 @@ class _PageCadastroAgenteDeCampoState extends State<PageCadastroAgenteDeCampo> {
       ),
     ));
   }
-}
-class Record {
-  final String nome;
-  final int votos;
-  final DocumentReference reference;
-
-  Record.fromMap(Map<String, dynamic> map, {this.reference})
-      : assert(map['nome'] != null),
-        assert(map['votos'] != null),
-        nome = map['nome'],
-        votos = map['votos'];
-
-  Record.fromSnapshot(DocumentSnapshot snapshot)
-      : this.fromMap(snapshot.data, reference: snapshot.reference);
-
-  @override
-  String toString() => "Record<$nome:$votos>";
 }

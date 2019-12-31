@@ -9,21 +9,18 @@ class PageCadastroAluno extends StatefulWidget {
   @override
   _PageCadastroAlunoState createState() => _PageCadastroAlunoState();
 }
+
 Firestore db = Firestore.instance;
 
-
-void salvar(List dados) async {
-  
-  
-  db.collection("aluno").add(
-    {
-      "nome": dados[0],
-      "residencia": dados[1],
-      "escola": dados[2],
-      "serie": dados[3],
-      "pontoAluno": dados[4]
-    }
-  );              
+Future<DocumentSnapshot> salvar(String nome, String residencia, String escola,
+    String serie, String ponto) async {
+  await db.collection("aluno").add({
+    "nome": nome,
+    "residencia": residencia,
+    "escola": escola,
+    "serie": serie,
+    "ponto": ponto
+  });
 }
 
 class _PageCadastroAlunoState extends State<PageCadastroAluno> {
@@ -35,17 +32,6 @@ class _PageCadastroAlunoState extends State<PageCadastroAluno> {
   TextEditingController _serieFieldController = TextEditingController();
   TextEditingController _pontoAlunoFieldController = TextEditingController();
 
-  List getDados(){
-  List<String> parametros = new List(5);
-  parametros[0] = _nomeAlunoFieldController.text;
-  parametros[1] =_residenciaFieldController.text;
-  parametros[2] =_escolaFieldController.text;
-  parametros[3] = _serieFieldController.text;
-  parametros[4] = _pontoAlunoFieldController.text;
-  return parametros;
-  }
-  
-
   @override
   Widget build(BuildContext context) {
     final nomeAlunoField = TextField(
@@ -55,8 +41,8 @@ class _PageCadastroAlunoState extends State<PageCadastroAluno> {
           hintText: "Nome do Aluno",
           border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))),
-              controller: _nomeAlunoFieldController,
-      );
+      controller: _nomeAlunoFieldController,
+    );
 
     final residenciaField = TextField(
       style: style,
@@ -65,6 +51,7 @@ class _PageCadastroAlunoState extends State<PageCadastroAluno> {
           hintText: "Residência",
           border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))),
+      controller: _residenciaFieldController,
     );
 
     final escolaField = TextField(
@@ -74,6 +61,7 @@ class _PageCadastroAlunoState extends State<PageCadastroAluno> {
           hintText: "Escola",
           border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))),
+      controller: _escolaFieldController,
     );
 
     final serieField = TextField(
@@ -83,6 +71,7 @@ class _PageCadastroAlunoState extends State<PageCadastroAluno> {
           hintText: "Serie/Turma",
           border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))),
+      controller: _serieFieldController,
     );
 
     final pontoAlunoField = TextField(
@@ -92,6 +81,7 @@ class _PageCadastroAlunoState extends State<PageCadastroAluno> {
           hintText: "Ponto GPS",
           border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))),
+      controller: _pontoAlunoFieldController,
     );
 
     final confirmButon = Material(
@@ -101,8 +91,14 @@ class _PageCadastroAlunoState extends State<PageCadastroAluno> {
       child: MaterialButton(
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-        onPressed: () {
-          salvar(getDados());
+        onPressed: () async {
+          await salvar(
+            _nomeAlunoFieldController.text,
+            _residenciaFieldController.text,
+            _escolaFieldController.text,
+            _serieFieldController.text,
+            _pontoAlunoFieldController.text,
+          );
         },
         child: Text("Confirmar",
             textAlign: TextAlign.center,

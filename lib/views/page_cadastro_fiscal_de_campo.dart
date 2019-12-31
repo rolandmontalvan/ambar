@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class PageCadastroFiscalDeCampo extends StatefulWidget {
@@ -10,8 +11,25 @@ class PageCadastroFiscalDeCampo extends StatefulWidget {
       _PageCadastroFiscalDeCampoState();
 }
 
+Firestore db = Firestore.instance;
+
+Future<DocumentSnapshot> salvar(
+    String modelo, String ano, String placa, String chassis) async {
+  await db
+      .collection("fiscalDeCampo")
+      .add({"modelo": modelo, "ano": ano, "placa": placa, "chassis": chassis});
+}
+
 class _PageCadastroFiscalDeCampoState extends State<PageCadastroFiscalDeCampo> {
   TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
+  TextEditingController _nomeFiscalDeCampoFieldController =
+      TextEditingController();
+  TextEditingController _emailFiscalDeCampoFieldController =
+      TextEditingController();
+  TextEditingController _cpfFiscalDecampoFieldController =
+      TextEditingController();
+  TextEditingController _snehaFiscalDecampoFieldController =
+      TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +40,7 @@ class _PageCadastroFiscalDeCampoState extends State<PageCadastroFiscalDeCampo> {
           hintText: "Nome do Fiscal de Campo",
           border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))),
+      controller: _nomeFiscalDeCampoFieldController,
     );
 
     final emailField = TextField(
@@ -31,6 +50,7 @@ class _PageCadastroFiscalDeCampoState extends State<PageCadastroFiscalDeCampo> {
           hintText: "Email",
           border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))),
+      controller: _emailFiscalDeCampoFieldController,
     );
 
     final cpfField = TextField(
@@ -40,6 +60,7 @@ class _PageCadastroFiscalDeCampoState extends State<PageCadastroFiscalDeCampo> {
           hintText: "CPF",
           border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))),
+      controller: _cpfFiscalDecampoFieldController,
     );
 
     final passwordField = TextField(
@@ -50,6 +71,7 @@ class _PageCadastroFiscalDeCampoState extends State<PageCadastroFiscalDeCampo> {
           hintText: "Senha",
           border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))),
+      controller: _snehaFiscalDecampoFieldController,
     );
 
     final confirmButon = Material(
@@ -59,7 +81,14 @@ class _PageCadastroFiscalDeCampoState extends State<PageCadastroFiscalDeCampo> {
       child: MaterialButton(
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-        onPressed: () {},
+        onPressed: () async {
+          await salvar(
+            _nomeFiscalDeCampoFieldController.text,
+            _emailFiscalDeCampoFieldController.text,
+            _cpfFiscalDecampoFieldController.text,
+            _snehaFiscalDecampoFieldController.text,
+          );
+        },
         child: Text("Confirmar",
             textAlign: TextAlign.center,
             style: style.copyWith(

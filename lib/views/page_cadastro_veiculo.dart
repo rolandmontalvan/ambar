@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class PageCadastroVeiculo extends StatefulWidget {
@@ -9,8 +10,23 @@ class PageCadastroVeiculo extends StatefulWidget {
   _PageCadastroVeiculoState createState() => _PageCadastroVeiculoState();
 }
 
+Firestore db = Firestore.instance;
+
+Future<DocumentSnapshot> salvar(
+    String modelo, String ano, String placa, String chassis) async {
+  await db
+      .collection("veiculo")
+      .add({"modelo": modelo, "ano": ano, "placa": placa, "chassis": chassis});
+}
+
 class _PageCadastroVeiculoState extends State<PageCadastroVeiculo> {
   TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
+  TextEditingController _modeloVeiculoFieldController = TextEditingController();
+  TextEditingController _anoVeiculoFieldController = TextEditingController();
+  TextEditingController _placaVeiculoFieldController = TextEditingController();
+
+  TextEditingController _chassisVeiculoFieldController =
+      TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +37,7 @@ class _PageCadastroVeiculoState extends State<PageCadastroVeiculo> {
           hintText: "Modelo do Veículo",
           border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))),
+      controller: _modeloVeiculoFieldController,
     );
 
     final anoVeiculoField = TextField(
@@ -30,6 +47,7 @@ class _PageCadastroVeiculoState extends State<PageCadastroVeiculo> {
           hintText: "Ano",
           border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))),
+      controller: _anoVeiculoFieldController,
     );
 
     final placaVeiculoField = TextField(
@@ -39,6 +57,7 @@ class _PageCadastroVeiculoState extends State<PageCadastroVeiculo> {
           hintText: "Placa",
           border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))),
+      controller: _placaVeiculoFieldController,
     );
 
     final chassisVeiculoField = TextField(
@@ -48,6 +67,7 @@ class _PageCadastroVeiculoState extends State<PageCadastroVeiculo> {
           hintText: "Chassis",
           border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))),
+      controller: _chassisVeiculoFieldController,
     );
 
     final confirmButon = Material(
@@ -57,7 +77,14 @@ class _PageCadastroVeiculoState extends State<PageCadastroVeiculo> {
       child: MaterialButton(
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-        onPressed: () {},
+        onPressed: () async {
+          await salvar(
+            _modeloVeiculoFieldController.text,
+            _anoVeiculoFieldController.text,
+            _placaVeiculoFieldController.text,
+            _chassisVeiculoFieldController.text,
+          );
+        },
         child: Text("Confirmar",
             textAlign: TextAlign.center,
             style: style.copyWith(

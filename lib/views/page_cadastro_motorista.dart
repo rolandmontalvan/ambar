@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class PageCadastroMotorista extends StatefulWidget {
@@ -6,11 +7,27 @@ class PageCadastroMotorista extends StatefulWidget {
   final String title;
 
   @override
-  _PageCadastroAAlunoState createState() => _PageCadastroAAlunoState();
+  _PageCadastroMotoristaState createState() => _PageCadastroMotoristaState();
 }
 
-class _PageCadastroAAlunoState extends State<PageCadastroMotorista> {
+Firestore db = Firestore.instance;
+
+Future<DocumentSnapshot> salvar(
+    String nome, String email, String cpf, String senha) async {
+  await db
+      .collection("motorista")
+      .add({"nome": nome, "email": email, "cpf": cpf, "senha": senha});
+}
+
+class _PageCadastroMotoristaState extends State<PageCadastroMotorista> {
   TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
+
+  TextEditingController _nomeMotoristaFieldController = TextEditingController();
+  TextEditingController _emailMotoristaFieldController =
+      TextEditingController();
+  TextEditingController _cpfMotoristaFieldController = TextEditingController();
+  TextEditingController _senhaMotoristaFieldController =
+      TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +38,7 @@ class _PageCadastroAAlunoState extends State<PageCadastroMotorista> {
           hintText: "Nome do/a Motorista",
           border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))),
+      controller: _nomeMotoristaFieldController,
     );
 
     final emailMotoristaField = TextField(
@@ -30,6 +48,7 @@ class _PageCadastroAAlunoState extends State<PageCadastroMotorista> {
           hintText: "Email",
           border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))),
+      controller: _emailMotoristaFieldController,
     );
 
     final cpfMotoristaField = TextField(
@@ -39,6 +58,7 @@ class _PageCadastroAAlunoState extends State<PageCadastroMotorista> {
           hintText: "CPF",
           border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))),
+      controller: _cpfMotoristaFieldController,
     );
 
     final passwordMotoristaField = TextField(
@@ -49,6 +69,7 @@ class _PageCadastroAAlunoState extends State<PageCadastroMotorista> {
           hintText: "Senha",
           border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))),
+      controller: _senhaMotoristaFieldController,
     );
 
     final confirmButon = Material(
@@ -58,7 +79,14 @@ class _PageCadastroAAlunoState extends State<PageCadastroMotorista> {
       child: MaterialButton(
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-        onPressed: () {},
+        onPressed: () async {
+          await salvar(
+            _nomeMotoristaFieldController.text,
+            _emailMotoristaFieldController.text,
+            _cpfMotoristaFieldController.text,
+            _senhaMotoristaFieldController.text,
+          );
+        },
         child: Text("Confirmar",
             textAlign: TextAlign.center,
             style: style.copyWith(

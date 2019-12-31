@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class PageCadastroEscola extends StatefulWidget {
@@ -9,8 +10,23 @@ class PageCadastroEscola extends StatefulWidget {
   _PageCadastroEscolaState createState() => _PageCadastroEscolaState();
 }
 
+Firestore db = Firestore.instance;
+
+Future<DocumentSnapshot> salvar(
+    String nome, String endereco, String ponto) async {
+  await db
+      .collection("escola")
+      .add({"nome": nome, "endereco": endereco, "ponto": ponto});
+}
+
 class _PageCadastroEscolaState extends State<PageCadastroEscola> {
   TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
+  TextEditingController _nomeInstituicaoFieldController =
+      TextEditingController();
+  TextEditingController _enderacoInstituicaoFieldController =
+      TextEditingController();
+  TextEditingController _pontoinstituicaoFieldController =
+      TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +37,7 @@ class _PageCadastroEscolaState extends State<PageCadastroEscola> {
           hintText: "Nome da Instituição",
           border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))),
+      controller: _nomeInstituicaoFieldController,
     );
 
     final enderecoEscolaField = TextField(
@@ -30,6 +47,7 @@ class _PageCadastroEscolaState extends State<PageCadastroEscola> {
           hintText: "Endereço",
           border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))),
+      controller: _enderacoInstituicaoFieldController,
     );
 
     final pontoEscolaField = TextField(
@@ -39,6 +57,7 @@ class _PageCadastroEscolaState extends State<PageCadastroEscola> {
           hintText: "Ponto GPS",
           border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))),
+      controller: _pontoinstituicaoFieldController,
     );
 
     final confirmButon = Material(
@@ -48,7 +67,13 @@ class _PageCadastroEscolaState extends State<PageCadastroEscola> {
       child: MaterialButton(
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-        onPressed: () {},
+        onPressed: () async {
+          await salvar(
+            _nomeInstituicaoFieldController.text,
+            _enderacoInstituicaoFieldController.text,
+            _pontoinstituicaoFieldController.text,
+          );
+        },
         child: Text("Confirmar",
             textAlign: TextAlign.center,
             style: style.copyWith(

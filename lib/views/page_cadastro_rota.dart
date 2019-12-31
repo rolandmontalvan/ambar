@@ -71,7 +71,6 @@ class _PageCadastroRotaState extends State<PageCadastroRota> {
   }
 
   Widget build(BuildContext context) {
-    
     final nomeRotaField = TextField(
       style: style,
       decoration: InputDecoration(
@@ -262,7 +261,7 @@ class _PageCadastroRotaState extends State<PageCadastroRota> {
             style: style.copyWith(
                 color: Colors.white, fontWeight: FontWeight.bold)),
       ),
-    ); 
+    );
     final espaco2 = SizedBox(height: 45.0);
     final espaco1 = SizedBox(height: 35.0);
     final espaco0 = SizedBox(height: 25.0);
